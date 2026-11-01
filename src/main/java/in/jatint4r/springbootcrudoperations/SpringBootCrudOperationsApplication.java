@@ -8,6 +8,7 @@ import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 public class SpringBootCrudOperationsApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(SpringBootCrudOperationsApplication.class, args);
     }
 

@@ -2,6 +2,7 @@ package in.jatint4r.springbootcrudoperations.service;
 
 import in.jatint4r.springbootcrudoperations.entity.Student;
 import in.jatint4r.springbootcrudoperations.repository.StudentRepository;
+import org.hibernate.sql.model.internal.OptionalTableInsert;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +17,20 @@ public class StudentService {
     }
 
     public Student createnewStudent(Student student){
+        student.setDeleted(false);
         return studentRepository.save(student);
 
     }
 
     public Student getStudent(Long Id){
-        Optional<Student> student= studentRepository.findById(Id);
+        Optional<Student> student= studentRepository.findByIdAndDeletedIsFalse(Id);
         if(student.isPresent())
             return student.get();
         return null;
     }
 
     public List<Student> getAllStudents(){
-        return studentRepository.findAll();
+        return studentRepository.findByAndDeletedIsFalse();
     }
 
     public Student updateStudent(Long id,Student studentReq){
@@ -50,6 +52,13 @@ public class StudentService {
         studentRepository.deleteById(id);
         return true;
     }
-
+    public String softDeleteStudent(Long id){
+     Optional<Student> student= studentRepository.findByIdAndDeletedIsFalse(id);
+     if(student.isEmpty()) return "";
+     Student exsistingStudent= student.get();
+     exsistingStudent.setDeleted(true);
+     studentRepository.save(exsistingStudent);
+     return "Successfully Deleted softly";
+    }
 }
 

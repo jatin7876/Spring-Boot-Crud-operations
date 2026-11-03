@@ -39,4 +39,18 @@ public class StudentController {
             return ResponseEntity.status(404).body(null);
         return ResponseEntity.status(200).body(student);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,@RequestBody Student studentReq){
+        Student student = studentService.updateStudent(id,studentReq);
+        return ResponseEntity.status(201).body(student);
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteStudent(@PathVariable Long id){
+        Boolean deleted = studentService.deleteStudent(id);
+        if(!deleted) return ResponseEntity.status(404).body(null);
+        return ResponseEntity.ok(deleted);
+    }
 }

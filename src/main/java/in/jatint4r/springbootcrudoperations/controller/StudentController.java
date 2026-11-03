@@ -16,8 +16,8 @@ public class StudentController {
         this.studentService = studentServic;
     }
     @PostMapping("/created")
-    public String createStudent(@RequestBody Student student){
-        studentService.createnewStudent(student);
-        return "Student created Successfully";
+    public Student createStudent(@RequestBody Student student){
+        Student newstudent= studentService.createnewStudent(student);
+        return newstudent;
     }
 }

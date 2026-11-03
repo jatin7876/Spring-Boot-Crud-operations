@@ -10,9 +10,8 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository){
         this.studentRepository = studentRepository;
     }
-    public void createnewStudent(Student student){
-        System.out.println("In Student Service ");
-        studentRepository.addNewStudent(student);
+    public Student createnewStudent(Student student){
+        return studentRepository.save(student);
 
     }
 }

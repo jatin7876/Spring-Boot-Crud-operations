@@ -1,5 +1,7 @@
 package in.jatint4r.springbootcrudoperations.controller;
 
+import in.jatint4r.springbootcrudoperations.dto.StudentRequestDto;
+import in.jatint4r.springbootcrudoperations.dto.StudentResponseDto;
 import in.jatint4r.springbootcrudoperations.entity.Student;
 import in.jatint4r.springbootcrudoperations.service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,9 @@ public class StudentController {
     }
 
     @PostMapping("/created")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
-        Student newstudent= studentService.createnewStudent(student);
-        return ResponseEntity.status(201).body(newstudent);
+    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentRequestDto studentRequestDto){
+        StudentResponseDto studentResponseDto= studentService.createnewStudent(studentRequestDto);
+        return ResponseEntity.status(201).body(studentResponseDto);
     }
 
     @GetMapping("/get")

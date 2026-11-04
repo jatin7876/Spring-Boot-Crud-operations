@@ -28,18 +28,18 @@ public class StudentController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Student> getStudent(@RequestParam Long id){
-      Student student = studentService.getStudent(id);
-      if(student==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-      return ResponseEntity.ok(student);
+    public ResponseEntity<StudentResponseDto> getStudent(@RequestParam Long id){
+        StudentResponseDto studentResponseDto = studentService.getStudent(id);
+      if(studentResponseDto==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+      return ResponseEntity.ok(studentResponseDto);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudents(){
-        List<Student> student = studentService.getAllStudents();
-        if(student.isEmpty())
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents(){
+        List<StudentResponseDto> studentResponseDtos = studentService.getAllStudents();
+        if(studentResponseDtos.isEmpty())
             return ResponseEntity.status(404).body(null);
-        return ResponseEntity.status(200).body(student);
+        return ResponseEntity.status(200).body(studentResponseDtos);
     }
 
     @PutMapping("/update")

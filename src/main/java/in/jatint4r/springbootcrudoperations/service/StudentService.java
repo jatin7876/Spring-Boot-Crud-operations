@@ -27,15 +27,18 @@ public class StudentService {
 
     }
 
-    public Student getStudent(Long Id){
+    public StudentResponseDto getStudent(Long Id){
         Optional<Student> student= studentRepository.findByIdAndDeletedIsFalse(Id);
         if(student.isPresent())
-            return student.get();
+           return mapentityToDto(student.get());
         return null;
     }
 
-    public List<Student> getAllStudents(){
-        return studentRepository.findByAndDeletedIsFalse();
+    public List<StudentResponseDto> getAllStudents(){
+        List<Student> student= studentRepository.findByAndDeletedIsFalse();
+        return student.stream()
+                .map(this::mapentityToDto)
+                .toList();
     }
 
     public Student updateStudent(Long id,Student studentReq){

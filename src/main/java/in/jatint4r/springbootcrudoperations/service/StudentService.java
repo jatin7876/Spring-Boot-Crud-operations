@@ -46,31 +46,31 @@ public class StudentService {
     }
 
     public Student updateStudent(Long id,Student studentReq){
-       Optional<Student> student = studentRepository.findById(id);
-       if(student.isEmpty()) return null;
-       Student exsistingStudent=student.get();
-        exsistingStudent.setAge(studentReq.getAge());
-        exsistingStudent.setEmail(studentReq.getEmail());
-        exsistingStudent.setName(studentReq.getName());
-        exsistingStudent.setRollNo(studentReq.getRollNo());
-        exsistingStudent.setSubject(studentReq.getSubject());
+      Student student = studentRepository.
+              findById(id).
+              orElseThrow(()-> new ResourceNotFoundException("Student with id"  + id + "Not found"));
+        student.setAge(studentReq.getAge());
+        student.setEmail(studentReq.getEmail());
+        student.setName(studentReq.getName());
+        student.setRollNo(studentReq.getRollNo());
+        student.setSubject(studentReq.getSubject());
 
        return studentRepository.save(studentReq);
     }
 
-    public boolean deleteStudent(Long id){
-        boolean student = studentRepository.existsById(id);
-        if(!student) return false;
-        studentRepository.deleteById(id);
-        return true;
+    public void deleteStudent(Long id){
+         Student studentToDeleted =studentRepository
+                .findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Student with id"  + id + "Not found"));
+        studentRepository.delete(studentToDeleted);
     }
-    public String softDeleteStudent(Long id){
-     Optional<Student> student= studentRepository.findByIdAndDeletedIsFalse(id);
-     if(student.isEmpty()) return "";
-     Student exsistingStudent= student.get();
-     exsistingStudent.setDeleted(true);
-     studentRepository.save(exsistingStudent);
-     return "Successfully Deleted softly";
+    public void softDeleteStudent(Long id){
+     Student student= studentRepository
+             .findByIdAndDeletedIsFalse(id)
+             .orElseThrow(()->new ResourceNotFoundException("Student with id"  + id + "Not found"));
+     student.setDeleted(true);
+     studentRepository.save(student);
+
     }
     private Student mapStudentEntity(StudentRequestDto studentRequestDto){
         Student student=new Student();

@@ -3,6 +3,7 @@ package in.jatint4r.springbootcrudoperations.service;
 import in.jatint4r.springbootcrudoperations.dto.StudentRequestDto;
 import in.jatint4r.springbootcrudoperations.dto.StudentResponseDto;
 import in.jatint4r.springbootcrudoperations.entity.Student;
+import in.jatint4r.springbootcrudoperations.exception.DuplicateException;
 import in.jatint4r.springbootcrudoperations.exception.ResourceNotFoundException;
 import in.jatint4r.springbootcrudoperations.repository.StudentRepository;
 import org.hibernate.sql.model.internal.OptionalTableInsert;
@@ -22,9 +23,11 @@ public class StudentService {
 
     public StudentResponseDto createnewStudent(StudentRequestDto studentRequestDto){
         Student student= mapStudentEntity(studentRequestDto);
+        if (checkDuplicateEmail(student))
+            throw new DuplicateException("Email already Exists" + student.getEmail());
         Student createdStudent = studentRepository.save(student);
-        StudentResponseDto studentResponseDto = mapentityToDto(createdStudent);
-        return studentResponseDto;
+        StudentResponseDto studentResponse = mapentityToDto(createdStudent);
+        return studentResponse;
 
     }
 
@@ -95,6 +98,9 @@ public class StudentService {
         studentResponseDto.setUpdatedAt(student.getUpdatedAt());
 
         return studentResponseDto;
+    }
+    private Boolean checkDuplicateEmail(Student student){
+        return studentRepository.existsByEmail(student.getEmail());
     }
 }
 

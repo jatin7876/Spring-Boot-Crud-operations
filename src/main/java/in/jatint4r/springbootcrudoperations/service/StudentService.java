@@ -3,6 +3,7 @@ package in.jatint4r.springbootcrudoperations.service;
 import in.jatint4r.springbootcrudoperations.dto.StudentRequestDto;
 import in.jatint4r.springbootcrudoperations.dto.StudentResponseDto;
 import in.jatint4r.springbootcrudoperations.entity.Student;
+import in.jatint4r.springbootcrudoperations.exception.ResourceNotFoundException;
 import in.jatint4r.springbootcrudoperations.repository.StudentRepository;
 import org.hibernate.sql.model.internal.OptionalTableInsert;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,10 @@ public class StudentService {
     }
 
     public StudentResponseDto getStudent(Long Id){
-        Optional<Student> student= studentRepository.findByIdAndDeletedIsFalse(Id);
-        if(student.isPresent())
-           return mapentityToDto(student.get());
-        return null;
+        Student student = studentRepository.
+                findById(Id).
+                orElseThrow(()-> new ResourceNotFoundException("Student with id " + Id + "Not found"));
+        return mapentityToDto(student) ;
     }
 
     public List<StudentResponseDto> getAllStudents(){

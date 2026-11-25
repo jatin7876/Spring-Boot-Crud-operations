@@ -15,6 +15,11 @@ public class StudentFilter implements Filter {
         System.out.println("Request filter");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        String header = httpServletRequest.getHeader("token");
+        if(header==null || !header.equals("12345")) {
+            httpServletResponse.setStatus(401);
+            return;
+        }
         System.out.println("Request is "+httpServletRequest.getMethod() + " " + httpServletRequest.getRequestURI());
         chain.doFilter(request,response);
         System.out.println("Response Filter");

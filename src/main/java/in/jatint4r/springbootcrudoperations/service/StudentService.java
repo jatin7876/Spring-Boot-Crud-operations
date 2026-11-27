@@ -31,6 +31,11 @@ public class StudentService {
 
     }
 
+    public String dummyMethod(){
+        System.out.println("dummy Method called");
+        return "Hello from dummy";
+    }
+
     public StudentResponseDto getStudent(Long Id){
         Student student = studentRepository.
                 findById(Id).

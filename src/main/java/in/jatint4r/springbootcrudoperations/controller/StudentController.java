@@ -28,6 +28,11 @@ public class StudentController {
         return ResponseEntity.status(201).body(studentResponseDto);
     }
 
+    @GetMapping("/hi")
+    public String dummyMethod(){
+        return studentService.dummyMethod();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> getStudent(@PathVariable Long id){
         StudentResponseDto studentResponseDto = studentService.getStudent(id);

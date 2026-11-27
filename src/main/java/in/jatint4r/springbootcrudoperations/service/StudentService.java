@@ -33,8 +33,8 @@ public class StudentService {
 
     public String dummyMethod(){
         System.out.println("dummy Method called");
-        throw new RuntimeException("Some Error Occurred");
-
+//        throw new RuntimeException("Some Error Occurred");
+          return "dummy Method ";
     }
 
     public StudentResponseDto getStudent(Long Id){
